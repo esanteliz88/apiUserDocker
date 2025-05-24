@@ -75,4 +75,4 @@ Este microservicio forma parte del sistema de ventas y se encarga de la gestión
 
 ## Licencia
 
-Este proyecto está bajo la Licencia MIT. 
+Este proyecto está bajo la Licencia MIT.    Prueba de CI/CD: activando workflow.
