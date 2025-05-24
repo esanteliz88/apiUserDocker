@@ -2,6 +2,8 @@
 
 Este microservicio forma parte del sistema de ventas y se encarga de la gestión de usuarios, autenticación y autorización.
 
+> Línea de prueba para forzar ejecución del pipeline CI/CD.
+
 ## Estado del CI/CD
 ![CI/CD Status](https://github.com/esanteliz88/apiUserDocker/actions/workflows/ci-cd.yml/badge.svg)
 
