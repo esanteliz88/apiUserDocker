@@ -35,9 +35,7 @@ jobs:
         cache: 'npm'
         
     - name: Install Dependencies
-      run: |
-        cd microservicios/usuarios
-        npm install
+      run: npm install
         
     - name: Run Tests
       env:
@@ -48,14 +46,10 @@ jobs:
         DB_PASSWORD: postgres
         DB_NAME: test_db
         JWT_SECRET: test_secret
-      run: |
-        cd microservicios/usuarios
-        npm test
+      run: npm test
         
     - name: Run Linting
-      run: |
-        cd microservicios/usuarios
-        npm run lint
+      run: npm run lint
 
   security-scan:
     needs: test
