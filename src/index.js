@@ -8,6 +8,10 @@ import roleRoutes from './routes/roleRoutes.js';
 import { errorHandler } from './middleware/errorHandler.js';
 import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
+import swaggerUi from 'swagger-ui-express';
+import swaggerJSDoc from 'swagger-jsdoc';
+import './models/RolePermission.js';
+import './models/associations.js';
 
 // Environment variables configuration
 dotenv.config();
@@ -52,6 +56,36 @@ app.use('/api/companies', companyRoutes);
 
 console.log('[Server] Montando rutas de roles en /api/roles');
 app.use('/api/roles', roleRoutes);
+
+// Configuración Swagger
+const swaggerOptions = {
+    definition: {
+        openapi: '3.0.0',
+        info: {
+            title: 'API Usuarios - Sistema de Ventas',
+            version: '1.0.0',
+            description: 'Documentación de la API de usuarios para el sistema de ventas.'
+        },
+        servers: [
+            { url: 'http://localhost:3000', description: 'Desarrollo local' }
+        ],
+        components: {
+            securitySchemes: {
+                bearerAuth: {
+                    type: 'http',
+                    scheme: 'bearer',
+                    bearerFormat: 'JWT'
+                }
+            }
+        }
+    },
+    security: [
+        { bearerAuth: [] }
+    ],
+    apis: ['./src/routes/*.js'],
+};
+const swaggerSpec = swaggerJSDoc(swaggerOptions);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // Test route
 app.get('/', (req, res) => {

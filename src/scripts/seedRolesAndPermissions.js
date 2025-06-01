@@ -1,5 +1,7 @@
+import '../models/associations.js';
 import Role from '../models/Role.js';
 import Permission from '../models/Permission.js';
+import User from '../models/User.js';
 import { sequelize } from '../config/database.js';
 
 const roles = [
@@ -43,6 +45,24 @@ async function seedRolesAndPermissions() {
             const role = createdRoles[roleName];
             const permsToAdd = perms.map(p => createdPermissions[p]);
             await role.setPermissions(permsToAdd);
+        }
+
+        // Crear usuario superadmin si no existe
+        const [superadmin, created] = await User.findOrCreate({
+            where: { email: 'admin@admin.com' },
+            defaults: {
+                name: 'Super Admin',
+                email: 'admin@admin.com',
+                password: 'admin123',
+                role: 'superadmin',
+                isCompanyAdmin: false,
+                active: true
+            }
+        });
+        if (created) {
+            console.log('Usuario superadmin creado: admin@admin.com / admin123');
+        } else {
+            console.log('Usuario superadmin ya existe.');
         }
 
         console.log('Roles y permisos iniciales creados correctamente.');

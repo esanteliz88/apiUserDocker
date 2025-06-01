@@ -36,7 +36,7 @@ export const registerCompany = async (req, res, next) => {
             isCompanyAdmin: true
         });
 
-        res.data = {
+        return res.status(201).json({
             message: 'Company created successfully',
             company: {
                 id: company.id,
@@ -49,8 +49,7 @@ export const registerCompany = async (req, res, next) => {
                 email: admin.email,
                 role: admin.role
             }
-        };
-        return next();
+        });
     } catch (error) {
         next(error);
     }
@@ -69,7 +68,7 @@ export const getCompanies = async (req, res, next) => {
             order: [['createdAt', 'DESC']]
         });
 
-        res.data = {
+        return res.json({
             companies,
             pagination: {
                 total: count,
@@ -77,8 +76,7 @@ export const getCompanies = async (req, res, next) => {
                 limit: parseInt(limit),
                 pages: Math.ceil(count / limit)
             }
-        };
-        return next();
+        });
     } catch (error) {
         next(error);
     }
@@ -96,8 +94,7 @@ export const getCompany = async (req, res, next) => {
             return next(ApiError.notFound('Company not found'));
         }
 
-        res.data = { company };
-        return next();
+        return res.json({ company });
     } catch (error) {
         next(error);
     }
@@ -135,7 +132,7 @@ export const updateCompany = async (req, res, next) => {
             active
         });
 
-        res.data = {
+        return res.json({
             message: 'Company updated successfully',
             company: {
                 id: company.id,
@@ -143,8 +140,7 @@ export const updateCompany = async (req, res, next) => {
                 email: company.email,
                 active: company.active
             }
-        };
-        return next();
+        });
     } catch (error) {
         next(error);
     }
@@ -162,8 +158,7 @@ export const deleteCompany = async (req, res, next) => {
         }
 
         await company.destroy();
-        res.data = { message: 'Company deleted successfully' };
-        return next();
+        return res.json({ message: 'Company deleted successfully' });
     } catch (error) {
         next(error);
     }

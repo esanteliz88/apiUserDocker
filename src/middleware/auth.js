@@ -107,19 +107,13 @@ export const isSameCompany = async (req, res, next) => {
 
 // Middleware para verificar que el usuario pertenece a la empresa
 export const belongsToCompany = (req, res, next) => {
-    const companyId = req.params.companyId || req.body.companyId;
-
+    const companyId = req.params.id || req.params.companyId || req.body.companyId;
     if (!companyId) {
         return res.status(400).json({ message: 'Company ID not provided' });
     }
-
-    if (req.user.role === 'superadmin') {
-        return next();
-    }
-
+    if (req.user.role === 'superadmin') return next();
     if (req.user.companyId !== companyId) {
         return res.status(403).json({ message: 'You do not have permission to access this company' });
     }
-
     next();
 }; 
